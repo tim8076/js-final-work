@@ -1,0 +1,21 @@
+.bg-cover {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.icon-font-size {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* 隱藏水平滾動條 */
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  cursor: grab;
+  overflow-x: auto; /* 確保內容可水平滾動 */
+  scrollbar-width: none; /* 隱藏 Firefox 的水平滾動條 */
+}
