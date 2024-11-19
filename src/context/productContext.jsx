@@ -35,7 +35,7 @@ export function useProduct() {
 
 export function ProductProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
-  // 取得全部訂單
+  // 取得全部商品列表
   const [products, setProducts] = useState([]);
   async function getProducts () {
     try {
@@ -169,19 +169,17 @@ export function ProductProvider({ children }) {
 
   // 送出訂單
   async function sendOrder(order) {
-    console.log(order)
     setIsLoading(true);
     try {
-      const res = await axios.post(`${apiBaseUrl}/${apiCustomerUrl}/${apiPath}/orders`, {
+      await axios.post(`${apiBaseUrl}/${apiCustomerUrl}/${apiPath}/orders`, {
         data: {
           user: order,
         }
       });
-      console.log(res.data)
       Toast.fire({
         icon: "success",
         title: "送出訂單成功"
-      })
+      });
     } catch(err) {
       Swal.fire({
         icon: "error",

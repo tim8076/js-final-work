@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-export default function TheHeader() {
+export default function DashboardHeader() {
   return (
     <header>
       <nav className="navbar navbar-expand-md bg-light py-md-6 py-lg-9">
@@ -14,22 +14,12 @@ export default function TheHeader() {
             <ul className="navbar-nav ms-md-auto">
               <li className="nav-item me-md-8 text-center text-md-start">
                 <Link className="nav-link fs-lg-4 py-md-0" to="/">
-                  床墊優勢
-                </Link>
-              </li>
-              <li className="nav-item me-md-8 text-center text-md-start">
-                <Link className="nav-link fs-lg-4 py-md-0" to="/">
-                  好評推薦
-                </Link>
-              </li>
-              <li className="nav-item me-md-8 text-center text-md-start">
-                <Link className="nav-link fs-lg-4 py-md-0" to="/">
-                  運送方式
+                  後台管理
                 </Link>
               </li>
               <li className="nav-item text-center text-md-start">
                 <Link className="nav-link fs-lg-4 py-md-0 text-primary-100" to="/">
-                  立即預訂
+                  管理員登入
                 </Link>
               </li>
             </ul>

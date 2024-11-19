@@ -1,4 +1,5 @@
 import TheHeader from "../components/TheHeader";
+import TheLoader from "../components/TheLoader";
 import CardRecommend from "../components/CardRecommend";
 import CardProduct from "../components/CardProduct";
 import { recommendationLsit, recommendationLsit2 } from "../data/home";
@@ -8,8 +9,7 @@ import adventageImage3 from '../assets/images/advantages/advantages-2.png';
 import adventageImage4 from '../assets/images/advantages/advantages-3.png';
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { filterProducts } from "../utils";
-import TheLoader from "../components/TheLoader";
+import { filterProducts } from "../tools/toolFuncs";
 import { useProduct } from "../context/productContext";
 
 export default function Home() {
@@ -34,24 +34,31 @@ export default function Home() {
 
   // 元件載入初始化
   useEffect(() => {
-    getProducts();
-    getCarts();
+    const fetchData = async () => {
+      await getProducts();
+      await getCarts();
+    };
+    fetchData();
   }, []);
-
+  
+  // 送出訂單
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors }
   } = useForm();
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const order = {
-      name: data.username,
-      tel: data.phone,
-      email: data.email,
-      address: data.address,
-      payment: data.payment,
+      name: data.username.trim(),
+      tel: data.phone.trim(),
+      email: data.email.trim(),
+      address: data.address.trim(),
+      payment: data.payment.trim(),
     }
-    sendOrder(order);
+    await sendOrder(order);
+    await getCarts();
+    reset();
   }
   return (
     <>
@@ -59,7 +66,6 @@ export default function Home() {
       <TheHeader />
       <main>
         <section>
-          <div className="py-5 bg-dark"></div>
           <div className="container py-4 pt-md-8 pb-md-15">
             <div className="mb-6 mb-md-15">
               <div
