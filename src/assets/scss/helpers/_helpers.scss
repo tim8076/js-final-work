@@ -9,13 +9,12 @@
   line-height: 1;
 }
 
-.hide-scrollbar::-webkit-scrollbar {
-  display: none; /* 隱藏水平滾動條 */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: $primary-100;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.hide-scrollbar {
-  cursor: grab;
-  overflow-x: auto; /* 確保內容可水平滾動 */
-  scrollbar-width: none; /* 隱藏 Firefox 的水平滾動條 */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; /* 滾動條寬度 */
+  height: 8px; /* 水平滾動條高度 */
 }

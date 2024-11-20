@@ -164,7 +164,7 @@ export default function Home() {
         <section className="py-6 py-md-15 bg-primary">
           <h2 className="fs-4 fs-md-2 text-center mb-8 text-light">好評推薦</h2>
           <div className="container">
-            <div className="hide-scrollbar">
+            <div className="overflow-x-scroll custom-scrollbar">
               <div className="d-flex ps-24 mb-5">
                 {
                   recommendationLsit.map(comment => {

@@ -1,8 +1,48 @@
-# React + Vite
+# JS 最終作業
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![](https://cdn-images-1.medium.com/max/1000/1*jSVb5c0dxa7VxYkTBg8UJg.png)
 
-Currently, two official plugins are available:
+## 安裝
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Node.js 版本建議為：v20.10.0 以上
+
+### 取得專案
+
+```
+git clone https://github.com/tim8076/js-final-work.git
+```
+
+### 移動到專案內
+
+```
+cd js-final-work
+```
+
+### 安裝套件
+
+```
+npm install
+```
+
+### 運行專案
+
+```
+npm run dev
+```
+
+## 資料夾說明
+
+- components - react 元件放置處
+- assets - 靜態檔案放置處
+  - scss - scss 檔案放置處
+  - images - 圖片放置處
+- context - react context 放置處
+- pages: 頁面元件放置處
+- data - data資料放置處
+- tools - 工具用函式放置處
+
+## 專案技術
+
+- Node.js v20.10.0
+- react 18.3.1
+- bootstrap 5.3.3
