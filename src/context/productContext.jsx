@@ -1,32 +1,16 @@
 import { useContext, createContext, useState } from "react";
-import axios from "axios";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
-const Toast = Swal.mixin({
-  toast: true,
-  position: "top-end",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.onmouseenter = Swal.stopTimer;
-    toast.onmouseleave = Swal.resumeTimer;
-  }
-});
-
-const DeleteConfirm = Swal.mixin({
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#C72424",
-  cancelButtonColor: "#301E5F",
-  confirmButtonText: "確認刪除",
-  cancelButtonText: '取消',
-  reverseButtons: true
-})
-
-const apiBaseUrl = 'https://livejs-api.hexschool.io';
-const apiCustomerUrl = 'api/livejs/v1/customer';
-const apiPath = 'tim6029';
+import { Toast, DeleteConfirm } from '../tools/SweetAlert.js';
+import {
+  customerGetProducts,
+  customerGetCarts,
+  customerPostCarts,
+  customerDeleteCart,
+  customerDeleteAllCart,
+  customerModifyCartNum,
+  customerSendOrder,
+} from "../connection/connection";
 
 const ProductContext = createContext({});
 export function useProduct() {
@@ -40,7 +24,7 @@ export function ProductProvider({ children }) {
   async function getProducts () {
     try {
       setIsLoading(true);
-      const res = await axios.get(`${apiBaseUrl}/${apiCustomerUrl}/${apiPath}/products`);
+      const res = await customerGetProducts();
       setProducts(res.data.products)
     } catch(err) {
       Swal.fire({
@@ -58,7 +42,7 @@ export function ProductProvider({ children }) {
   async function getCarts() {
     setIsLoading(true);
     try {
-      const res = await axios.get(`${apiBaseUrl}/${apiCustomerUrl}/${apiPath}/carts`);
+      const res = await customerGetCarts();
       setCarts(res.data.carts);
       setCartFinalTotal(res.data.finalTotal)
     } catch(err) {
@@ -76,12 +60,12 @@ export function ProductProvider({ children }) {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await axios.post(`${apiBaseUrl}/${apiCustomerUrl}/${apiPath}/carts`, {
+      await customerPostCarts({
         data: {
           productId: id,
           quantity: 1,
         }
-      });
+      })
       await getCarts();
       Toast.fire({
         icon: "success",
@@ -107,7 +91,7 @@ export function ProductProvider({ children }) {
     if (res.isConfirmed) {     
       setIsLoading(true);
       try {
-        await axios.delete(`${apiBaseUrl}/${apiCustomerUrl}/${apiPath}/carts/${id}`);
+        await customerDeleteCart(id);
         await getCarts();
       } catch(err) {
         Swal.fire({
@@ -130,7 +114,7 @@ export function ProductProvider({ children }) {
     if (res.isConfirmed) {
       setIsLoading(true);
       try {
-        await axios.delete(`${apiBaseUrl}/${apiCustomerUrl}/${apiPath}/carts`);
+        await customerDeleteAllCart();
         await getCarts();
       } catch(err) {
         Swal.fire({
@@ -149,7 +133,7 @@ export function ProductProvider({ children }) {
     const productNum = carts.find(cart => cart.id === id).quantity + quantity;
     setIsLoading(true);
     try {
-      await axios.patch(`${apiBaseUrl}/${apiCustomerUrl}/${apiPath}/carts`, {
+      await customerModifyCartNum({
         data: {
           id: id,
           quantity: productNum,
@@ -171,11 +155,11 @@ export function ProductProvider({ children }) {
   async function sendOrder(order) {
     setIsLoading(true);
     try {
-      await axios.post(`${apiBaseUrl}/${apiCustomerUrl}/${apiPath}/orders`, {
+      await customerSendOrder({
         data: {
           user: order,
         }
-      });
+      })
       Toast.fire({
         icon: "success",
         title: "送出訂單成功"

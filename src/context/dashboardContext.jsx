@@ -1,33 +1,13 @@
 import { useContext, createContext, useState } from "react";
-import axios from "axios";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
-const Toast = Swal.mixin({
-  toast: true,
-  position: "top-end",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.onmouseenter = Swal.stopTimer;
-    toast.onmouseleave = Swal.resumeTimer;
-  }
-});
-
-const DeleteConfirm = Swal.mixin({
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#C72424",
-  cancelButtonColor: "#301E5F",
-  confirmButtonText: "確認刪除",
-  cancelButtonText: '取消',
-  reverseButtons: true
-})
-
-const apiBaseUrl = 'https://livejs-api.hexschool.io';
-const apiCustomerUrl = 'api/livejs/v1/admin';
-const apiPath = 'tim6029';
-const token = 'q1qYVBiDx5XwAxAmz6ZK6gu5Y9Z2';
+import { Toast, DeleteConfirm } from '../tools/SweetAlert.js';
+import {
+  adminGetOrders,
+  adminDeleteOrder,
+  adminDeleteAllOrders,
+  adminModifyOrderStatus,
+} from "../connection/connection.js";
 
 const DashboardContext = createContext({});
 export function useDashboard() {
@@ -42,11 +22,7 @@ export function DashboardProvider({ children }) {
   async function getOrders() {
     try {
       setIsLoading(true);
-      const res = await axios.get(`${apiBaseUrl}/${apiCustomerUrl}/${apiPath}/orders`, {
-        headers: {
-          'Authorization': token
-        }
-      });
+      const res = await adminGetOrders();
       setOrders(res.data.orders);
     } catch(err) {
       Swal.fire({
@@ -68,11 +44,7 @@ export function DashboardProvider({ children }) {
     if (res.isConfirmed) {
       try {
         setIsLoading(true);
-        const res = await axios.delete(`${apiBaseUrl}/${apiCustomerUrl}/${apiPath}/orders/${id}`, {
-          headers: {
-            'Authorization': token
-          }
-        });
+        const res = await adminDeleteOrder(id);
         Toast.fire({
           icon: "success",
           title: "刪除訂單成功"
@@ -99,11 +71,7 @@ export function DashboardProvider({ children }) {
     if (res.isConfirmed) {
       try {
         setIsLoading(true);
-        const res = await axios.delete(`${apiBaseUrl}/${apiCustomerUrl}/${apiPath}/orders`, {
-          headers: {
-            'Authorization': token
-          }
-        });
+        const res = await adminDeleteAllOrders();
         setOrders(res.data.orders);
       } catch(err) {
         Swal.fire({
@@ -119,20 +87,14 @@ export function DashboardProvider({ children }) {
 
   // 修改訂單狀態
   async function modifyOrderStatus(id, isPaid) {
-    console.log(id, isPaid)
     try {
       setIsLoading(true);
-      const res = await axios.put(`${apiBaseUrl}/${apiCustomerUrl}/${apiPath}/orders`, {
+      const res = await adminModifyOrderStatus({
         data: {
           id,
           paid: isPaid,
         }
-      },{
-        headers: {
-          'Authorization': token
-        }
       });
-      console.log(res.data.orders)
       setOrders(res.data.orders);
     } catch(err) {
       Swal.fire({
