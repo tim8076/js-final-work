@@ -96,29 +96,35 @@ $utilities: map-merge(
     // scss-docs-start utils-position
     "position": (
       property: position,
+      responsive: true,
       values: static relative absolute fixed sticky
     ),
     "top": (
       property: top,
+      responsive: true,
       values: $position-values
     ),
     "bottom": (
       property: bottom,
+      responsive: true,
       values: $position-values
     ),
     "start": (
       property: left,
       class: start,
+      responsive: true,
       values: $position-values
     ),
     "end": (
       property: right,
       class: end,
+      responsive: true,
       values: $position-values
     ),
     "translate-middle": (
       property: transform,
       class: translate-middle,
+      responsive: true,
       values: (
         null: translate(-50%, -50%),
         x: translateX(-50%),

@@ -295,7 +295,7 @@ export default function Home() {
                                       alt={product.title} />
                                     <p className="fs-4 fw-normal">{product.title}</p>
                                   </th>
-                                  <td className="fs-4">NT${product.origin_price}</td>
+                                  <td className="fs-4">NT${product.price}</td>
                                   <td className="fs-4">
                                     <a href="#" className={`btn btn-primary-100 py-0 px-1 ${quantity === 1 ? 'pe-none disabled': ''}`}
                                       onClick={(e) => modifyCartItemNum(e, id, -1)}>
@@ -307,7 +307,7 @@ export default function Home() {
                                       <i className="bi bi-plus-lg"></i>
                                     </a>
                                   </td>
-                                  <td className="fs-4">NT${product.price}</td>
+                                  <td className="fs-4">NT${product.price * quantity}</td>
                                   <td className="text-end">
                                     <a href="#"
                                       className="text-primary-100-hover me-6"
@@ -376,7 +376,7 @@ export default function Home() {
                       className="form-label">
                       電話
                     </label>
-                    <input type="number"
+                    <input type="tel"
                       className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
                       id="phone"
                       { ...register('phone', {

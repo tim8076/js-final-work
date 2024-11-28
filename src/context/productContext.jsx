@@ -59,11 +59,16 @@ export function ProductProvider({ children }) {
   async function addToCart (e, id) {
     e.preventDefault();
     setIsLoading(true);
+    const productInCart = carts.find(cart => cart.product.id === id);
+    let productQuantity = 1;
+    if (productInCart) {
+      productQuantity += productInCart.quantity;
+    }
     try {
       await customerPostCarts({
         data: {
           productId: id,
-          quantity: 1,
+          quantity: productQuantity,
         }
       })
       await getCarts();

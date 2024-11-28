@@ -4,6 +4,22 @@ export function filterProducts(products, filter) {
   return products.filter(product => product.category === filter);
 }
 
+// 全產品類別營收比重
+export function calcProductCategoryRevenueProportion(data) {
+  const revenueProportion = {};
+  data.forEach(order => {
+    order.products.forEach(product => {
+      if (!revenueProportion[product.category]) {
+        revenueProportion[product.category] = product.price * product.quantity;
+      } else {
+        revenueProportion[product.category] += product.price * product.quantity;
+      }
+    })
+  })
+  const c3Data = Object.entries(revenueProportion);
+  return c3Data;
+}
+
 // 全品項營收比重
 export function calcRevenueProportion(data) {
   const revenueProportion = {};
@@ -24,4 +40,10 @@ export function calcRevenueProportion(data) {
     c3Data.push(['其他', leftProductsTotal]);
   }
   return c3Data;
+}
+
+// 訂單排序
+export function sortOrdersDecending(orders) {
+  const sortedOrders = [...orders].sort((a, b) => b.createdAt - a.createdAt);
+  return sortedOrders;
 }
